@@ -173,7 +173,12 @@ class _MainScreenState extends State<MainScreen> {
           // await Future.delayed(const Duration(milliseconds: 500));
 
           if(r.advertisementData.advName.contains("Nordic Beacon") && r.rssi > -80) {
-            debugPrint("스캔된 네임 : ${r.advertisementData.advName}");
+            // debugPrint("스캔된 네임 : ${r.advertisementData.advName}");
+
+            if (r.device.platformName == "Nordic Beacon 53-2") {
+
+              debugPrint("connect55 : ${r.device.platformName}");
+            }
             try {
               if(!Info.bleList.contains(r.device)) {
                 Info.tryConnecting[r.device] = false;
@@ -188,7 +193,13 @@ class _MainScreenState extends State<MainScreen> {
               }
 
 
+              // debugPrint("11111111 : ${!r.device.isConnected}");
+              // debugPrint("22222222 : ${Info.items.containsKey(r.device)}");
+              // debugPrint("33333333 : ${!Info.items[r.device]}");
+              // debugPrint("44444444 : ${!Info.tryWrite}");
+
               if (!r.device.isConnected && Info.items.containsKey(r.device) && !Info.items[r.device] && !Info.tryWrite) {
+                // debugPrint("뭐가 찍히나 : ${r.device.platformName}");
                 try {
                   await r.device.connect();
                   debugPrint("뭐가 찍히나 : ${r.device.platformName}");
@@ -248,38 +259,42 @@ class _MainScreenState extends State<MainScreen> {
 
     // await r.device.connect();
     for (var device in FlutterBluePlus.connectedDevices) {
-      debugPrint("connect 성공 : ${device.platformName}");
+      if (device.platformName == "Nordic Beacon 53-2") {
+
+        debugPrint("connect 성공44wwww : ${device.platformName}");
+      }
       connectingBLECnt[device] = 0;
       scanResultCnt[device] = 0;
 
-      try {
-        await bleConnectionMap[device]?.connect(device).then((value) async {
-          // r.device.disconnect().then((_) {
-          //
-          //   tryConnecting[r.device] = false;
-          // });
-          if (value) {
+      await bleConnectionMap[device]?.connect(device).then((value) async {
+        // r.device.disconnect().then((_) {
+        //
+        //   tryConnecting[r.device] = false;
+        // });
+        if (value) {
+
+          if (device.platformName == "Nordic Beacon 53-2") {
             debugPrint("컨넥 종료 :  ${device.platformName}");
-            await device.disconnect();
-            Info.tryConnecting[device] = false;
-            // Info.tryWrite = false;
-            setState(() {
-
-            });
-          } else {
-            debugPrint("컨넥 종료2 :  ${device.platformName}");
-            await device.disconnect();
-            Info.tryConnecting[device] = false;
-            // Info.tryWrite = false;
           }
-
-        });
-      } catch (e) {
-        if(device.isConnected) {
           await device.disconnect();
-        }
-      }
+          Info.tryConnecting[device] = false;
+          // Info.tryWrite = false;
+          setState(() {
 
+          });
+        } else {
+          if (device.platformName == "Nordic Beacon 53-2") {
+            debugPrint("컨넥 종료5555222 :  ${device.platformName}");
+          }
+          Info.tryConnecting[device] = false;
+          await device.disconnect();
+
+          debugPrint("컨넥 3333 :  ${device.platformName}");
+          // Info.tryConnecting[device] = false;
+          // Info.tryWrite = false;
+        }
+
+      });
     }
 
     Info.tryWrite = false;
@@ -292,7 +307,6 @@ class _MainScreenState extends State<MainScreen> {
 
     // await Future.delayed(const Duration(milliseconds: 2000));
     // }
-
 
 
 

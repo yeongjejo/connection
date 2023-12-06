@@ -101,11 +101,17 @@ class BleConnection {
     }
 
     // debugPrint('connect 성공');
+    if (device.platformName == "Nordic Beacon 53-2") {
+      debugPrint("컨넥 중1111 :  ${device.platformName}");
+    }
     late List<BluetoothService> services;
 
     try {
       services = await device.discoverServices().timeout(const Duration(milliseconds: 1500));
     } catch (e){
+      if (device.platformName == "Nordic Beacon 53-2") {
+        debugPrint("컨넥 종료22222 :  ${device.platformName}");
+      }
       debugPrint('Fail Service Search');
       isFail = true;
     }
@@ -125,10 +131,16 @@ class BleConnection {
       } else {
         continue;
       }
+      if (device.platformName == "Nordic Beacon 53-2") {
+        debugPrint("컨넥 종료22222 :  ${device.platformName}");
+      }
 
       for (BluetoothCharacteristic c in characteristics) {
         debugPrint('Character 구조 : ${c.toString()}');
         debugPrint('Character UUID : ${c.uuid}');
+        if (device.platformName == "Nordic Beacon 53-2") {
+          debugPrint("컨넥 종료22222 :  ${device.platformName}");
+        }
 
         List<String> temp2 = c.uuid.toString().split("-");
         debugPrint("temp2[0] : ${temp2[0]}");
@@ -155,7 +167,7 @@ class BleConnection {
 
               Info.items[device] = true;
 
-              // Info.writeSuccess = true;
+              Info.writeSuccess = true;
               // return Future.value(true);
               // Info.items[device] = true;
               // device.disconnect();
@@ -167,7 +179,7 @@ class BleConnection {
 
 
           debugPrint("Start Write 시작");
-          await char1.write([99], withoutResponse: true);
+          await char1.write([00], withoutResponse: true);
           await Future.delayed(const Duration(milliseconds: 500));
           // if(Info.items[device]) {
           //   return Future.value(true);
