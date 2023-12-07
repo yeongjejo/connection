@@ -38,6 +38,7 @@ dependencies:
   flutter_blue_plus: ^1.29.11
   permission_handler: ^10.2.0
   fluttertoast: ^8.2.1
+  flutter_ble_peripheral: ^1.2.0
 
 dev_dependencies:
   flutter_test:
