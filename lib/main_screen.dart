@@ -85,7 +85,7 @@ class _MainScreenState extends State<MainScreen> {
         await searchClober();
         // debugPrint("***서치 종료 : ${maxClober}");
       }
-      // await Future.delayed(const Duration(microseconds: 100));
+      // await Future.delayed(const Duration(microseconds: 00));
 
       //
       // debugPrint("111111 : ${searchDone}");
@@ -112,7 +112,7 @@ class _MainScreenState extends State<MainScreen> {
           await tryDisconnect();
 
           // debugPrint("컨넥 종료2222 $e");   // debugPrint("Connect Error!!!");
-          debugPrint("***컨넥 종료2222  : ${DateTime.now()}");   // debugPrint("Connect Error!!!");
+          debugPrint("***컨넥 종료2222  : ${DateTime.now()} , $e");   // debugPrint("Connect Error!!!");
         }
       }
     } catch (e) {
@@ -223,8 +223,8 @@ class _MainScreenState extends State<MainScreen> {
       scanResultList = results;
       if (results.isNotEmpty) {
         for(ScanResult r in scanResultList) {
+          // if(r.advertisementData.advName.contains("Nordic Beacon") && r.rssi > -80 && r.device.platformName != "Nordic Beacon 41-4" && r.device.platformName == "Nordic Beacon 53-1") {
           if(r.advertisementData.advName.contains("Nordic Beacon") && r.rssi > -80 && r.device.platformName != "Nordic Beacon 41-4") {
-          // if(r.advertisementData.advName.contains("Nordic Beacon") && r.rssi > -80 && r.device.platformName != "Nordic Beacon 41-4") {
             try {
               if (!Info.bleList.contains(r.device)) {
                 Info.bleList.add(r.device);
@@ -385,7 +385,7 @@ class _MainScreenState extends State<MainScreen> {
 
 
     debugPrint('*** try connect : ${DateTime.now()}');
-    await maxClober?.connect(autoConnect: false).timeout(const Duration(milliseconds: 2000), onTimeout: ()
+    await maxClober?.connect(autoConnect: false).timeout(const Duration(milliseconds: 3000), onTimeout: ()
     {
       debugPrint('***Fail BLE Connect');
       returnValue = Future.value(false);
@@ -538,6 +538,7 @@ class _MainScreenState extends State<MainScreen> {
                       await subscription?.cancel();
                       serviceTimer.cancel();
                       duration.cancel();
+                      testList = [];
                       isScanning = false;
                       Info.isScan = false;
                       setState(() {
@@ -727,7 +728,8 @@ class _MainScreenState extends State<MainScreen> {
       //if (timerValid && counter > 15) {
 
       debugPrint("Scan Cut : $timerValid");
-      if (timerValid) {
+      // if (timerValid) {
+      if (true) {
         DateTime nowTime = DateTime.now();
         if (nowTime.millisecondsSinceEpoch-saerchTime.millisecondsSinceEpoch >= 1) {
           // debugPrint("Scan Cut");
