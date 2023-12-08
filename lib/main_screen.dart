@@ -10,6 +10,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_ble_peripheral/flutter_ble_peripheral.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:wakelock/wakelock.dart';
 
 import 'Toast.dart';
 import 'ble_connection.dart';
@@ -223,8 +224,8 @@ class _MainScreenState extends State<MainScreen> {
       scanResultList = results;
       if (results.isNotEmpty) {
         for(ScanResult r in scanResultList) {
-          // if(r.advertisementData.advName.contains("Nordic Beacon") && r.rssi > -80 && r.device.platformName != "Nordic Beacon 41-4" && r.device.platformName == "Nordic Beacon 53-1") {
-          if(r.advertisementData.advName.contains("Nordic Beacon") && r.rssi > -80 && r.device.platformName != "Nordic Beacon 41-4") {
+          // if(r.advertisementData.advName.contains("Nordic Beacon") && r.rssi > -80 && r.device.platformName != "Nordic Beacon 41-4") {
+          if(r.advertisementData.advName.contains("-4") && r.rssi > -80) {
             try {
               if (!Info.bleList.contains(r.device)) {
                 Info.bleList.add(r.device);
@@ -385,7 +386,7 @@ class _MainScreenState extends State<MainScreen> {
 
 
     debugPrint('*** try connect : ${DateTime.now()}');
-    await maxClober?.connect(autoConnect: false).timeout(const Duration(milliseconds: 3000), onTimeout: ()
+    await maxClober?.connect(autoConnect: false).timeout(const Duration(milliseconds: 2000), onTimeout: ()
     {
       debugPrint('***Fail BLE Connect');
       returnValue = Future.value(false);
@@ -510,6 +511,8 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Wakelock.enable();
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(

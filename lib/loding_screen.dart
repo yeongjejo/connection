@@ -112,19 +112,17 @@ class _LoadingScreenState extends State<LoadingScreen> {
     }
 
     // 권한 설정 여부 확인
-    // goToMainPage(); // 페이지 이동
-    // 권한 설정 여부 확인
-    if (rejectPermission) {
-      CustomToast().showToast("모든 권한을 (항상)허용 하셔야 됩니다.");
-      Future.delayed(const Duration(seconds: 2), () {
-        SystemNavigator.pop();
-        exit(0);
-      });
-    } else {
-      // 앱 버전 저장
-
-      goToMainPage(); // 페이지 이동
-    }
+    goToMainPage(); // 페이지 이동
+    // if (rejectPermission) {
+    //   CustomToast().showToast("모든 권한을 (항상)허용 하셔야 됩니다.");
+    //   Future.delayed(const Duration(seconds: 2), () {
+    //     SystemNavigator.pop();
+    //     exit(0);
+    //   });
+    // } else {
+    //
+    //   goToMainPage(); // 페이지 이동
+    // }
   }
 
   // 페이지 이동

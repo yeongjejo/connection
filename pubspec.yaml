@@ -39,6 +39,7 @@ dependencies:
   permission_handler: ^10.2.0
   fluttertoast: ^8.2.1
   flutter_ble_peripheral: ^1.2.0
+  wakelock: ^0.6.2
 
 dev_dependencies:
   flutter_test:
